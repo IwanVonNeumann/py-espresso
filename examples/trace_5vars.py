@@ -1,5 +1,6 @@
 from py_espresso.cube import Cube
 from py_espresso.problem import BooleanProblem
+from py_espresso.expand import expand_cube_greedy
 
 
 def show_cube(problem: BooleanProblem, cube: Cube) -> None:
@@ -19,6 +20,11 @@ def main() -> None:
         dc={0, 4, 12, 16, 20, 24, 28},
     )
 
+    print("=" * 60)
+    print("Manual expansion")
+    print("=" * 60)
+    print()
+
     cube = Cube.from_minterm(5, n=5)
     show_cube(problem, cube)
 
@@ -34,6 +40,16 @@ def main() -> None:
         cube.expand_var(4),  # --10-
     ]:
         show_cube(problem, candidate)
+
+    print("=" * 60)
+    print("Greedy expansion")
+    print("=" * 60)
+    print()
+
+    start = Cube.from_minterm(5, n=5)
+    expanded = expand_cube_greedy(start, problem)
+
+    show_cube(problem, expanded)
 
 
 if __name__ == "__main__":
