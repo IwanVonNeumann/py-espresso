@@ -1,6 +1,7 @@
 from py_espresso.cover import Cover
 from py_espresso.cube import Cube
-from py_espresso.expand import expand_cover_greedy, expand_cube_greedy
+from py_espresso.expand import expand_cube_greedy
+from py_espresso.initial import build_initial_cover_greedy
 from py_espresso.irredundant import make_irredundant_greedy
 from py_espresso.minimize import minimize_greedy
 from py_espresso.problem import BooleanProblem
@@ -96,7 +97,7 @@ def main() -> None:
     print("=" * 60)
     print()
 
-    greedy_cover = expand_cover_greedy(problem)
+    greedy_cover = build_initial_cover_greedy(problem)
     show_cover(problem, greedy_cover)
 
     print("=" * 60)
