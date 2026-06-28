@@ -3,8 +3,9 @@ from py_espresso.cube import Cube
 from py_espresso.expand import expand_cube_greedy
 from py_espresso.initial import build_initial_cover_greedy
 from py_espresso.irredundant import make_irredundant_greedy
-from py_espresso.minimize import minimize_greedy
+from py_espresso.minimize import minimize_greedy, minimize_greedy_with_reduce
 from py_espresso.problem import BooleanProblem
+from py_espresso.reduce import reduce_cover_greedy
 
 
 def show_cube(problem: BooleanProblem, cube: Cube) -> None:
@@ -93,7 +94,7 @@ def main() -> None:
     show_cover(problem, hand_cover)
 
     print("=" * 60)
-    print("Greedy cover expansion")
+    print("Initial greedy cover")
     print("=" * 60)
     print()
 
@@ -109,12 +110,28 @@ def main() -> None:
     show_cover(problem, irredundant_cover)
 
     print("=" * 60)
+    print("Reduced cover")
+    print("=" * 60)
+    print()
+
+    reduced_cover = reduce_cover_greedy(irredundant_cover, problem)
+    show_cover(problem, reduced_cover)
+
+    print("=" * 60)
     print("Minimize greedy")
     print("=" * 60)
     print()
 
     solution = minimize_greedy(problem)
     show_cover(problem, solution)
+
+    print("=" * 60)
+    print("Minimize greedy with reduce")
+    print("=" * 60)
+    print()
+
+    reduced_solution = minimize_greedy_with_reduce(problem)
+    show_cover(problem, reduced_solution)
 
 
 if __name__ == "__main__":
