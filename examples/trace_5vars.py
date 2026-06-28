@@ -1,6 +1,6 @@
 from py_espresso.cover import Cover
 from py_espresso.cube import Cube
-from py_espresso.expand import expand_cube_greedy
+from py_espresso.expand import expand_cover_greedy, expand_cube_greedy
 from py_espresso.problem import BooleanProblem
 
 
@@ -88,6 +88,14 @@ def main() -> None:
         ]
     )
     show_cover(problem, hand_cover)
+
+    print("=" * 60)
+    print("Greedy cover expansion")
+    print("=" * 60)
+    print()
+
+    greedy_cover = expand_cover_greedy(problem)
+    show_cover(problem, greedy_cover)
 
 
 if __name__ == "__main__":
