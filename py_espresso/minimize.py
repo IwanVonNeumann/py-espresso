@@ -4,16 +4,10 @@ from py_espresso.cover import Cover
 from py_espresso.initial import build_initial_cover_greedy
 from py_espresso.irredundant import make_irredundant_greedy
 from py_espresso.problem import BooleanProblem
+from py_espresso.reduce import reduce_cover_greedy
 
 
 def minimize_greedy(problem: BooleanProblem) -> Cover:
-    """
-    First working minimizer.
-
-    Pipeline:
-        1. Build an initial greedy cover.
-        2. Remove redundant cubes.
-    """
     cover = build_initial_cover_greedy(problem)
     cover = make_irredundant_greedy(cover, problem)
 
@@ -21,3 +15,16 @@ def minimize_greedy(problem: BooleanProblem) -> Cover:
         raise RuntimeError("minimization produced invalid or incomplete cover")
 
     return cover
+
+
+def minimize_greedy_with_reduce(problem: BooleanProblem) -> Cover:
+    cover = build_initial_cover_greedy(problem)
+    cover = make_irredundant_greedy(cover, problem)
+
+    reduced = reduce_cover_greedy(cover, problem)
+    reduced = make_irredundant_greedy(reduced, problem)
+
+    if not reduced.is_solution(problem):
+        raise RuntimeError("reduce produced invalid or incomplete cover")
+
+    return reduced
