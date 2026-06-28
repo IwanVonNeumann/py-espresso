@@ -83,6 +83,14 @@ that improve cost.
 This is currently the closest function to an Espresso-style loop, but it is
 still an Espresso-inspired greedy minimizer rather than canonical Espresso.
 
+### `trace_espresso_greedy(problem, max_iter=10)`
+
+Returns the sequence of decisions made by `minimize_espresso_greedy`.
+
+The first step records the initial greedy+irredundant cover. Later steps record
+the reduced cover, expanded cover, irredundant candidate, acceptance decision,
+and current accepted cover.
+
 ## Tested Properties
 
 Current tests check that:
@@ -96,6 +104,8 @@ Current tests check that:
 - `make_irredundant_greedy` preserves a solution and removes an explicitly
   redundant cube.
 - `minimize_espresso_greedy(problem, max_iter=0)` matches the greedy baseline.
+- `trace_espresso_greedy` starts with a valid initial solution, accepted steps
+  improve cost, and its final cover matches `minimize_espresso_greedy`.
 
 ## Known Limitations
 
@@ -110,7 +120,6 @@ Current tests check that:
 
 ## Near-Term Direction
 
-- Add trace output for iterative minimization.
 - Add more examples, including cases where reduce-expand-irredundant improves a
   greedy baseline.
 - Compare behavior against a trusted reference implementation or documented

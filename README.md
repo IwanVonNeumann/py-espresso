@@ -21,6 +21,7 @@ Espresso-style minimizer.
 - `minimize_greedy(problem)`
 - `minimize_greedy_with_reduce(problem)`
 - `minimize_espresso_greedy(problem, max_iter=10)`
+- `trace_espresso_greedy(problem, max_iter=10)`
 
 The default cover cost is `(cube_count, literal_count)`, where smaller tuples
 are better.

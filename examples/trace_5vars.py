@@ -12,6 +12,7 @@ from py_espresso.minimize import (
     minimize_espresso_greedy,
     minimize_greedy,
     minimize_greedy_with_reduce,
+    trace_espresso_greedy,
 )
 from py_espresso.problem import BooleanProblem
 from py_espresso.reduce import reduce_cover_greedy
@@ -42,6 +43,20 @@ def show_cover(problem: BooleanProblem, cover: Cover) -> None:
     print(f"complete: {cover.is_complete(problem)}")
     print(f"solution: {cover.is_solution(problem)}")
     print()
+
+
+def show_espresso_trace(problem: BooleanProblem) -> None:
+    for step in trace_espresso_greedy(problem):
+        if step.iteration == 0:
+            print(f"initial: cost={step.cover.cost()}")
+            continue
+
+        print(f"iter {step.iteration}:")
+        print(f"  reduced: cost={step.reduced.cost()}")
+        print(f"  expanded: cost={step.expanded.cost()}")
+        print(f"  candidate: cost={step.candidate.cost()}")
+        print(f"  decision: {step.reason}")
+        print(f"  current: cost={step.cover.cost()}")
 
 
 def main() -> None:
@@ -149,6 +164,13 @@ def main() -> None:
 
     espresso_solution = minimize_espresso_greedy(problem)
     show_cover(problem, espresso_solution)
+
+    print("=" * 60)
+    print("Espresso-inspired greedy trace")
+    print("=" * 60)
+    print()
+
+    show_espresso_trace(problem)
 
 
 if __name__ == "__main__":
