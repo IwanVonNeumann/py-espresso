@@ -37,3 +37,38 @@ def minimize_greedy_with_reduce(problem: BooleanProblem) -> Cover:
         return candidate
 
     return cover
+
+
+def minimize_espresso_greedy(
+    problem: BooleanProblem,
+    max_iter: int = 10,
+) -> Cover:
+    """
+    Iterative Espresso-inspired greedy minimizer.
+
+    This keeps the simple greedy phases as building blocks and accepts only
+    reduce-expand-irredundant candidates that improve the cover cost.
+    """
+    if max_iter < 0:
+        raise ValueError("max_iter must be non-negative")
+
+    cover = build_initial_cover_greedy(problem)
+    cover = make_irredundant_greedy(cover, problem)
+
+    if not cover.is_solution(problem):
+        raise RuntimeError("minimization produced invalid or incomplete cover")
+
+    for _ in range(max_iter):
+        reduced = reduce_cover_greedy(cover, problem)
+        expanded = expand_cover_greedy(reduced, problem)
+        candidate = make_irredundant_greedy(expanded, problem)
+
+        if not candidate.is_solution(problem):
+            break
+
+        if candidate.cost() < cover.cost():
+            cover = candidate
+        else:
+            break
+
+    return cover

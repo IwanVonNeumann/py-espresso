@@ -1,9 +1,18 @@
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from py_espresso.cover import Cover
 from py_espresso.cube import Cube
 from py_espresso.expand import expand_cube_greedy
 from py_espresso.initial import build_initial_cover_greedy
 from py_espresso.irredundant import make_irredundant_greedy
-from py_espresso.minimize import minimize_greedy, minimize_greedy_with_reduce
+from py_espresso.minimize import (
+    minimize_espresso_greedy,
+    minimize_greedy,
+    minimize_greedy_with_reduce,
+)
 from py_espresso.problem import BooleanProblem
 from py_espresso.reduce import reduce_cover_greedy
 
@@ -132,6 +141,14 @@ def main() -> None:
 
     reduced_solution = minimize_greedy_with_reduce(problem)
     show_cover(problem, reduced_solution)
+
+    print("=" * 60)
+    print("Minimize Espresso-inspired greedy")
+    print("=" * 60)
+    print()
+
+    espresso_solution = minimize_espresso_greedy(problem)
+    show_cover(problem, espresso_solution)
 
 
 if __name__ == "__main__":
